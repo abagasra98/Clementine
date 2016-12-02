@@ -1,0 +1,18 @@
+{
+  "name": "clementine.js",
+  "version": "1.0.0",
+  "description": "A tutorial app based on clementine.js",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "abagasra98",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^2.0.0",
+    "express": "^4.14.0",
+    "mongoose": "^4.7.1",
+    "passport": "^0.3.2",
+    "passport-github": "^1.1.0"
+  }
+}
