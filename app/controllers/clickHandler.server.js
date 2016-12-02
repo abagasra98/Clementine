@@ -1,46 +1,35 @@
-function clickHandler(db) {
-  var clicks = db.collection('clicks');
+var Clicks = require('../models/clicks.js')
 
+function ClickHandler() {
   this.getClicks = function(req, res) {
-    var clickProjection = {_id: 0};
-    clicks.findOne({}, clickProjection, function(err, result) {
+    Clicks.findOne({}, {_id: 0}).exec(function(err, result) {
       if (err) throw err;
 
       if (result) {
         res.json(result);
       } else {
-        clicks.insert({clicks: 0}, function(err) {
-          if (err) throw err;
-        })
-
-        clicks.findOne({}, clickProjection, function(err, doc) {
+        var newDoc = new Clicks({clicks: 0});
+        newDoc.save(function(err, doc) {
           if (err) throw err;
           res.json(doc);
         });
       }
-
-    });
+    })
   };
 
   this.addClick = function(req, res) {
-    clicks
-          .findAndModify(
-            {},
-            {_id: 1},
-            {$inc: {clicks: 1}},
-            function(err, result) {
-              if (err) throw err;
-              res.json(result);
-            }
-          );
+    Clicks.findOneAndUpdate({}, {$inc: {clicks: 1}}).exec(function(err, result) {
+      if (err) throw err;
+      res.json(result)
+    })
   };
 
   this.resetClicks = function(req, res) {
-    clicks.update({}, {clicks: 0}, function(err, result) {
+    Clicks.findOneAndUpdate({}, {clicks: 0}).exec(function(err, result) {
       if (err) throw err;
       res.json(result);
     })
   }
 }
 
-module.exports = clickHandler;
+module.exports = ClickHandler;
